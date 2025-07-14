@@ -4,7 +4,7 @@ name = "window_info"
 version = "0.0.1"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
@@ -23,5 +23,3 @@ napi-build = "2.0.1"
 [profile.release]
 lto = true
 strip = "symbols"
-
-

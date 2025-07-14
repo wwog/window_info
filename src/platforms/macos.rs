@@ -40,7 +40,7 @@ pub struct CGWindow {
   #[serde(rename = "kCGWindowMemoryUsage")]
   memory_usage: i32,
   #[serde(rename = "kCGWindowName")]
-  name: String,
+  name: Option<String>,
   #[serde(rename = "kCGWindowNumber")]
   number: i32,
   #[serde(rename = "kCGWindowOwnerName")]
@@ -158,7 +158,6 @@ pub fn list_windows() -> Vec<String> {
     let array_ptr = CFRetained::as_ptr(&windows).as_ptr() as *const c_void;
     // 通过CFArrayGetCount获取窗口数量
     let count = CFArrayGetCount(array_ptr);
-    println!("当前屏幕上窗口数量: {}", count);
     let mut cg_windows: Vec<CGWindow> = Vec::new();
     let mut windows_strs: Vec<String> = Vec::new();
     for i in 0..count {
@@ -189,7 +188,7 @@ pub fn list_windows() -> Vec<String> {
       cg_windows.push(cg_window);
       windows_strs.push(rust_string.clone());
     }
-    CFRelease(array_ptr);
+    // 不需要手动释放 array_ptr，因为 CFRetained 会自动管理内存
     windows_strs
   }
 }
